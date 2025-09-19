@@ -28,5 +28,11 @@ urlpatterns = [
     # Common endpoints
     path('auth/logout/', views.logout, name='logout'),
     path('auth/profile/', views.user_profile, name='user_profile'),
+    path('inventory/list/', views.inventory_list, name='inventory_list'),
+    path('inventory/new/', views.create_item, name='create_item'),
+    path('inventory/update/', views.update_item, name='update_item'),
+    path('inventory/restock/', views.restock_item, name='restock_item'),
+    path('inventory/orders/', views.view_orders, name='view_orders'),
+    path('inventory/revenue/', views.revenue_stats, name='revenue_stats'),
     path('admin/', admin.site.urls),
 ]
