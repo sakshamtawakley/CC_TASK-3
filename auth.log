@@ -1,3 +1,53 @@
 Error in user signup: JSON parse error - Expecting value: line 1 column 1 (char 0)
 User logged in: saksham
 User logged in: saksham
+Error in user signup: JSON parse error - Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+Error in user login: JSON parse error - Expecting property name enclosed in double quotes: line 5 column 1 (char 55)
+Error in user login: JSON parse error - Expecting property name enclosed in double quotes: line 3 column 5 (char 7)
+User logged in: eni
+User logged in: shopkeeper
+Admin logged in: shopkeeper
+Admin logged in: shopkeeper
+Error in admin login: JSON parse error - Invalid control character at: line 3 column 25 (char 56)
+Error in admin login: JSON parse error - Expecting property name enclosed in double quotes: line 4 column 1 (char 54)
+Admin logged in: shopkeeper
+Error in admin login: JSON parse error - Expecting ':' delimiter: line 2 column 13 (char 39)
+Admin logged in: shopkeeper
+Shopkeeper shopkeeper accessed inventory list
+Error retrieving inventory: Non-relational field given in select_related: 'category'. Choices are: (none)
+Error creating product: no such table: ecomm_inventory
+Error creating product: no such table: ecomm_inventory
+Shopkeeper shopkeeper accessed inventory list
+Error retrieving inventory: Non-relational field given in select_related: 'category'. Choices are: (none)
+Error creating product: no such table: ecomm_inventory
+Shopkeeper shopkeeper accessed inventory list
+Error retrieving inventory: Non-relational field given in select_related: 'category'. Choices are: (none)
+Error creating product: no such table: ecomm_inventory
+Error creating product: no such table: ecomm_inventory
+Error creating product: no such table: ecomm_inventory
+Shopkeeper shopkeeper created product: Gaming Mouse
+Shopkeeper shopkeeper created product: Gaming Mouse
+Shopkeeper shopkeeper accessed inventory list
+Error retrieving inventory: Non-relational field given in select_related: 'category'. Choices are: (none)
+Shopkeeper shopkeeper accessed inventory list
+Error retrieving inventory: no such column: ecomm_inventory.category_id
+Shopkeeper shopkeeper accessed inventory list
+Error retrieving inventory: no such column: ecomm_inventory.category_id
+Shopkeeper shopkeeper accessed inventory list
+Error retrieving inventory: no such column: ecomm_inventory.category_id
+Shopkeeper shopkeeper created product: Gaming headphones
+Shopkeeper shopkeeper accessed inventory list
+Shopkeeper shopkeeper accessed revenue stats
+Shopkeeper shopkeeper accessed orders list
+User logged in: saksham
+Shopkeeper shopkeeper accessed inventory list
+Shopkeeper shopkeeper updated product: Gaming Mouse
+Shopkeeper shopkeeper accessed inventory list
+Shopkeeper shopkeeper accessed orders list
+Shopkeeper shopkeeper accessed orders list
+Shopkeeper shopkeeper accessed revenue stats
+Shopkeeper shopkeeper created product: Sprite
+Shopkeeper shopkeeper accessed inventory list
+Shopkeeper shopkeeper accessed inventory list
+Shopkeeper shopkeeper accessed inventory list
+Shopkeeper shopkeeper accessed orders list

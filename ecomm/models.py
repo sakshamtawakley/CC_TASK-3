@@ -25,8 +25,8 @@ class Category(models.Model):
 
 class inventory(models.Model):
     name = models.CharField(max_length=20)
-    category=models.CharField(max_length=20)
-    price=models.FloatField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
+    price=models.DecimalField(max_digits=10,decimal_places=2)
     quantity=models.IntegerField()
     description=models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -68,3 +68,16 @@ class OrderItem(models.Model):
     @property
     def subtotal(self):
         return self.quantity * self.price
+
+class CartItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart_items')
+    item = models.ForeignKey(inventory, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['user', 'item']
+
+    def __str__(self):
+        return f"{self.user.username} - {self.quantity}x {self.item.name}"
+    

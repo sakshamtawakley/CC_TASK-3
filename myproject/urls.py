@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from ecomm import views
 urlpatterns = [
     # User authentication
@@ -25,14 +25,27 @@ urlpatterns = [
     # Admin authentication
     path('auth/admin/login/', views.admin_login, name='admin_login'),
     
+    # Shop endpoints
+    path('shop/list/', views.shop_item_list, name='shop-item-list'),
+    path('shop/item/<int:item_id>/', views.shop_item_detail, name='shop-item-detail'),
+    path('shop/categories/', views.shop_categories, name='shop-categories'),
+    
+    # Order endpoints
+    path('orders/past/', views.order_list, name='order-list'),
+    path('orders/new/', views.create_order, name='create-order'),
+    path('orders/<int:order_id>/', views.order_detail, name='order-detail'),
+
     # Common endpoints
     path('auth/logout/', views.logout, name='logout'),
     path('auth/profile/', views.user_profile, name='user_profile'),
     path('inventory/list/', views.inventory_list, name='inventory_list'),
-    path('inventory/new/', views.create_item, name='create_item'),
-    path('inventory/update/', views.update_item, name='update_item'),
+    path('inventory/new/', views.inventory_create, name='create_item'),
+    path('inventory/update/', views.inventory_update, name='update_item'),
     path('inventory/restock/', views.restock_item, name='restock_item'),
     path('inventory/orders/', views.view_orders, name='view_orders'),
     path('inventory/revenue/', views.revenue_stats, name='revenue_stats'),
+    path('categories/', views.list_categories, name='list_categories'),
+
+    path('api-auth/', include('rest_framework.urls')),
     path('admin/', admin.site.urls),
 ]
