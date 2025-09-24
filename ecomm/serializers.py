@@ -36,8 +36,6 @@ class LoginSerializer(serializers.Serializer):
             user = authenticate(username=username, password=password)
             if not user:
                 raise serializers.ValidationError('Invalid credentials')
-            if not user.is_active:
-                raise serializers.ValidationError('User account is disabled')
             attrs['user'] = user
         else:
             raise serializers.ValidationError('Must provide username and password')
@@ -72,7 +70,7 @@ class ProductListSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = inventory
-        fields = ['id', 'name', 'category_name', 'quantity', 'price', 'created_at', 'last_restocked']
+        fields = ['id', 'name', 'category_name', 'quantity', 'price', 'created_at', ]
 
 class ProductDetailSerializer(serializers.ModelSerializer):
     """Detailed serializer for single product operations"""
@@ -83,7 +81,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         model = inventory
         fields = [
             'id', 'name', 'description', 'category', 'category_id', 
-            'price', 'quantity', 'created_at', 'updated_at', 'last_restocked'
+            'price', 'quantity', 'created_at', 'updated_at', 
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
 
@@ -164,3 +162,49 @@ class RevenueSerializer(serializers.Serializer):
     average_order_value = serializers.DecimalField(max_digits=10, decimal_places=2)
     revenue_this_month = serializers.DecimalField(max_digits=15, decimal_places=2)
     revenue_this_year = serializers.DecimalField(max_digits=15, decimal_places=2)
+
+class ItemListSerializer(serializers.ModelSerializer):
+    """Simplified serializer (excludes detailed description)"""
+    class Meta:
+        model = inventory
+        fields = ['id', 'name', 'category', 'price']
+
+class ItemSerializer(serializers.ModelSerializer):
+    in_stock = serializers.ReadOnlyField()
+    class Meta:
+        model = inventory
+        fields = ['id', 'name', 'description', 'category', 'price', 'quantity', 
+                 'in_stock', 'created_at']
+
+class CreateOrderSerializer(serializers.Serializer):
+    items = serializers.ListField(
+        child=serializers.DictField(
+            child=serializers.CharField()
+        )
+    )
+    shipping_address = serializers.CharField(max_length=500)
+    phone_number = serializers.CharField(max_length=15)
+    special_instructions = serializers.CharField(max_length=500, required=False, allow_blank=True)
+    def validate_items(self, value):
+        if not value:
+            raise serializers.ValidationError("At least one item is required")
+        
+        for item_data in value:
+            if 'item_id' not in item_data or 'quantity' not in item_data:
+                raise serializers.ValidationError("Each item must have 'item_id' and 'quantity'")
+            
+            try:
+                item_id = int(item_data['item_id'])
+                quantity = int(item_data['quantity'])
+                
+                if quantity <= 0:
+                    raise serializers.ValidationError("Quantity must be greater than 0")
+                
+                item = inventory.objects.get(id=item_id)
+                if item.quantity < quantity:
+                    raise serializers.ValidationError(f"Insufficient stock for {item.name}")
+                    
+            except (ValueError, inventory.DoesNotExist):
+                raise serializers.ValidationError(f"Invalid item_id: {item_data.get('item_id')}")
+        return value
+    
