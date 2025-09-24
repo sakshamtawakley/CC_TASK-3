@@ -51,6 +51,7 @@ Shopkeeper shopkeeper accessed inventory list
 Shopkeeper shopkeeper accessed inventory list
 Shopkeeper shopkeeper accessed inventory list
 Shopkeeper shopkeeper accessed orders list
+<<<<<<< HEAD
 Shopkeeper shopkeeper restocked Gaming Mouse: 48 -> 248
 Shopkeeper shopkeeper accessed revenue stats
 Shopkeeper shopkeeper updated product: Smart Watch
@@ -58,3 +59,5 @@ Shopkeeper shopkeeper accessed inventory list
 Shopkeeper shopkeeper created product: Black T shirt
 Shopkeeper shopkeeper accessed orders list
 Shopkeeper shopkeeper accessed inventory list
+=======
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a

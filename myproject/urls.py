@@ -45,6 +45,10 @@ urlpatterns = [
     path('inventory/orders/', views.view_orders, name='view_orders'),
     path('inventory/revenue/', views.revenue_stats, name='revenue_stats'),
     path('categories/', views.list_categories, name='list_categories'),
+<<<<<<< HEAD
+=======
+
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a
     path('api-auth/', include('rest_framework.urls')),
     path('admin/', admin.site.urls),
 ]

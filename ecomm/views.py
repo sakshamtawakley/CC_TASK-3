@@ -148,6 +148,22 @@ def user_profile(request):
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
+<<<<<<< HEAD
+=======
+@permission_classes([permissions.IsAuthenticated])
+def apiOverview(request):
+    api_urls={
+        'List':'task-list',
+        'Detail view': '/task-detail/<str:pk>/',
+        'create' : '/task-create/',
+        'Update':'/task-update/<str:pk>',
+        'Delete':'/task-delete/<str:pk>',
+    }
+    return Response(api_urls)
+
+
+@api_view(['GET'])
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a
 @authentication_classes([JWTAuthentication, SessionAuthentication])
 @permission_classes([IsAuthenticated,IsShopkeeper])
 def inventory_list(request):
@@ -193,13 +209,21 @@ def inventory_create(request):
         serializer = ProductCreateSerializer(data=request.data)
         
         if serializer.is_valid():
+<<<<<<< HEAD
             print(" Serializer validation passed")
+=======
+            print("✅ Serializer validation passed")
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a
             print(f"Validated data: {serializer.validated_data}")
             
             # Create the product
             try:
                 product = serializer.save()
+<<<<<<< HEAD
                 print(f" Product created with ID: {product.id}")
+=======
+                print(f"✅ Product created with ID: {product.id}")
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a
                 
                 # Return success response
                 response_serializer = ProductListSerializer(product)
@@ -211,25 +235,42 @@ def inventory_create(request):
                 }, status=status.HTTP_201_CREATED)
                 
             except Exception as save_error:
+<<<<<<< HEAD
                 print(f" Error saving product: {save_error}")
+=======
+                print(f"❌ Error saving product: {save_error}")
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a
                 return Response({
                     'error': 'Failed to save product to database',
                     'details': str(save_error)
                 }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         else:
+<<<<<<< HEAD
             print(f" Serializer validation failed: {serializer.errors}")
             
             
             
     except Exception as e:
         print(f" Unexpected error in create_item: {e}")
+=======
+            print(f"❌ Serializer validation failed: {serializer.errors}")
+            
+            # Return validation error response
+            
+    except Exception as e:
+        print(f"❌ Unexpected error in create_item: {e}")
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a
         import traceback
         print(f"Full traceback: {traceback.format_exc()}")
         
         logger.error(f"Unexpected error in create_item: {str(e)}", exc_info=True)
         
+<<<<<<< HEAD
         
+=======
+        # ALWAYS return a response, even for unexpected errors
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a
         return Response({
             'error': 'Internal server error occurred',
             'details': str(e),
@@ -437,9 +478,16 @@ def list_categories(request):
 @authentication_classes([JWTAuthentication, SessionAuthentication])
 @permission_classes([IsAuthenticated])
 def shop_item_list(request):
+<<<<<<< HEAD
     """GET /shop/list """
     queryset = inventory.objects.filter()
     
+=======
+    """GET /shop/list - Function-based version with manual filtering"""
+    queryset = inventory.objects.filter()
+    
+    # Apply filters manually
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a
     category = request.GET.get('category')
     if category:
         queryset = queryset.filter(category__iexact=category)
@@ -449,7 +497,11 @@ def shop_item_list(request):
          desc_matches = queryset.filter(description__icontains=search)
          queryset = name_matches.union(desc_matches)
     
+<<<<<<< HEAD
     # ordering
+=======
+    # Apply ordering
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a
     ordering = request.GET.get('ordering', '-created_at')
     valid_orderings = ['price', '-price', 'created_at', '-created_at', 'name', '-name']
     if ordering in valid_orderings:
@@ -468,7 +520,11 @@ def shop_item_list(request):
 @permission_classes([IsAuthenticated])
 def shop_item_detail(request, item_id):
     """
+<<<<<<< HEAD
     GET /shop/item/{id} - Detailed information about a specific item
+=======
+    GET /shop/item/{id} - Get detailed information about a specific item
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a
     """
     try:
         item = inventory.objects.get(id=item_id)
@@ -485,11 +541,16 @@ def shop_item_detail(request, item_id):
 @permission_classes([IsAuthenticated])
 def shop_categories(request):
     """
+<<<<<<< HEAD
     GET /shop/categories - List of all available categories
+=======
+    GET /shop/categories - Get list of all available categories
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a
     """
     categories = inventory.objects.filter().values_list(
         'category', flat=True
     ).distinct().order_by('category')
+<<<<<<< HEAD
     categories2 = Category.objects.all()
     cat_list=list(categories)
     categories_data = [
@@ -503,13 +564,22 @@ def shop_categories(request):
             if j['id']==i:
                 category_list.append(j['name'])
     return Response({'categories': category_list})
+=======
+    
+    
+    return Response({'categories': list(categories)})
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a
 
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication, SessionAuthentication])
 @permission_classes([IsAuthenticated])
 def order_list(request):
     """
+<<<<<<< HEAD
     GET /orders/past -  user's past orders
+=======
+    GET /orders/past - Get user's past orders
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a
     """
     orders = Order.objects.filter(user=request.user).prefetch_related(
         'user'
@@ -609,7 +679,11 @@ def order_detail(request, order_id):
     """
     try:
         order = Order.objects.prefetch_related(
+<<<<<<< HEAD
             'items'
+=======
+            'items', 'items__item'
+>>>>>>> 519818360dee6caac26d031b0e1f580103c5fb5a
         ).get(id=order_id, user=request.user)
         
         serializer = OrderSerializer(order)
